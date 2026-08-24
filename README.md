@@ -21,6 +21,7 @@ Push this directory to a GitHub repository, then in **Settings → Pages** choos
 - `index.html` — page content and metadata
 - `styles.css` — layout, visual design, and responsive behavior
 - `app.js` — saved-example walkthrough, graph rendering, and citation copy action
-- `ARR_graph_uncertainty/` — manuscript source and paper figures
+- `assets/` — the two paper figures used by the page
+- `ARR_graph_uncertainty/` — local manuscript source (intentionally ignored by Git)
 
 Update the manuscript/code links and BibTeX author details in `index.html` after de-anonymization.
