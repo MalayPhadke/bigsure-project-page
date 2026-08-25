@@ -49,7 +49,7 @@ function renderGraph(weights) {
   const anchorY = [65, 145, 225];
   const probeY = [30, 76, 122, 168, 214, 260];
   const lines = weights.flatMap((row, i) => row.map((weight, j) =>
-    `<path class="graph-link" style="--weight:${weight};--i:${i * 6 + j}" d="M115 ${anchorY[i]} C280 ${anchorY[i]}, 400 ${probeY[j]}, 565 ${probeY[j]}" />`
+    `<path class="graph-link" fill="none" stroke="#4f8068" stroke-width="3" stroke-linecap="round" stroke-dasharray="0 9" style="--weight:${weight};--i:${i * 6 + j};opacity:${.12 + weight * .7}" d="M115 ${anchorY[i]} C280 ${anchorY[i]}, 400 ${probeY[j]}, 565 ${probeY[j]}" />`
   )).join('');
   const anchors = anchorY.map((y, i) => `<circle class="graph-node anchor" cx="100" cy="${y}" r="17"/><text class="graph-node-label" x="100" y="${y}">A${i + 1}</text>`).join('');
   const probes = probeY.map((y, i) => `<circle class="graph-node probe" cx="580" cy="${y}" r="15"/><text class="graph-node-label" x="580" y="${y}">P${i + 1}</text>`).join('');
