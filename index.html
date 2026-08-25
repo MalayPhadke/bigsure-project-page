@@ -16,7 +16,7 @@
       <span>BiG—SURE</span>
     </a>
     <nav aria-label="Main navigation">
-      <a href="#idea">Idea</a>
+      <a href="#demo">Demo</a>
       <a href="#results">Results</a>
       <a href="#citation">Citation</a>
     </nav>
@@ -27,8 +27,8 @@
     <section class="hero shell">
       <div class="hero-copy">
         <div class="eyebrow"><span></span> EMNLP 2026 · Main Conference</div>
-        <h1>Does an LLM’s answer<br><em>survive a little heat?</em></h1>
-        <p class="dek"><strong>BiG-SURE</strong> estimates uncertainty without model internals. It simply asks whether a model’s stable answers and diverse answers still mean the same thing.</p>
+        <h1>Does an LLM’s answer<br><em>survive a temperature change?</em></h1>
+        <p class="dek"><strong>BiG-SURE</strong> estimates uncertainty without model internals. It simply asks whether a model’s low-temperature answers and high-temperature answers still mean the same thing.</p>
         <div class="hero-actions">
           <a class="button button-dark" href="#demo">See it in action <span aria-hidden="true">↓</span></a>
           <a class="button button-light" href="#citation">Paper coming soon <span aria-hidden="true">↓</span></a>
@@ -53,9 +53,8 @@
           </g>
           <g class="hero-nodes anchors"><circle cx="135" cy="104" r="22"/><circle cx="135" cy="215" r="22"/><circle cx="135" cy="326" r="22"/></g>
           <g class="hero-nodes probes"><circle cx="466" cy="72" r="17"/><circle cx="466" cy="147" r="17"/><circle cx="466" cy="222" r="17"/><circle cx="466" cy="297" r="17"/><circle cx="466" cy="372" r="17"/></g>
-          <g class="pulse-dot"><circle r="5"><animateMotion dur="2.8s" repeatCount="indefinite" path="M146 215 C300 215 316 152 452 147"/></circle></g>
         </svg>
-        <div class="visual-caption"><span class="signal-dot"></span><strong>Agreement is a signal.</strong> Confidence is in the connections.</div>
+        <div class="visual-caption"><span class="signal-dot"></span><strong>Strong agreement implies high confidence.</strong></div>
       </div>
     </section>
 
@@ -63,14 +62,17 @@
       <div class="shell">
         <div class="section-heading demo-heading">
           <div><span class="kicker">Interactive walkthrough</span><h2>Watch uncertainty emerge.</h2></div>
-          <p>Two saved examples. One stays semantically steady under high-temperature sampling; the other drifts. Follow the signal from prompt to score.</p>
+          <p>Two saved examples. One remains certain across temperatures; the other becomes uncertain. Follow the signal from prompt to score.</p>
         </div>
 
         <div class="demo-card" data-state="reliable">
           <div class="demo-toolbar">
-            <div class="example-tabs" role="group" aria-label="Choose a saved example">
-              <button class="example-tab active" data-example="reliable" aria-pressed="true"><span></span> Reliable answer</button>
-              <button class="example-tab" data-example="uncertain" aria-pressed="false"><span></span> Uncertain answer</button>
+            <div class="example-picker">
+              <span class="tab-caption">Choose example</span>
+              <div class="example-tabs" role="group" aria-label="Choose a saved example">
+                <button class="example-tab active" data-example="reliable" aria-pressed="true"><span></span> Reliable answer</button>
+                <button class="example-tab" data-example="uncertain" aria-pressed="false"><span></span> Uncertain answer</button>
+              </div>
             </div>
             <button class="replay" type="button" aria-label="Replay animation"><span aria-hidden="true">↻</span> Replay</button>
           </div>
@@ -91,20 +93,20 @@
 
             <article class="samples-pane reveal-part part-1">
               <div class="sample-column">
-                <div class="pane-label cool-label"><span>02a</span> Anchors <small>T = 0.1 · 3 samples</small></div>
+                <div class="pane-label cool-label"><span>02a</span> Anchors <small>T = 0.1</small></div>
                 <div class="response-list" id="anchors-list"></div>
               </div>
               <div class="sample-column probes-column">
-                <div class="pane-label hot-label"><span>02b</span> Probes <small>T = 1.0 · showing 6 of 10</small></div>
+                <div class="pane-label hot-label"><span>02b</span> Probes <small>T = 1.0</small></div>
                 <div class="response-list" id="probes-list"></div>
               </div>
             </article>
 
             <article class="graph-pane reveal-part part-2">
-              <div class="pane-label"><span>03</span> NLI agreement graph <small>edge = entailment probability</small></div>
+              <div class="pane-label"><span>03</span> Semantic agreement</div>
               <div class="graph-wrap">
                 <svg id="demo-graph" viewBox="0 0 680 290" role="img" aria-label="Bipartite agreement graph"></svg>
-                <div class="graph-legend"><i></i> stronger semantic agreement</div>
+                <div class="graph-legend"><span>weaker</span><i></i><span>stronger semantic agreement</span></div>
               </div>
             </article>
 
@@ -113,28 +115,21 @@
                 <div class="pane-label"><span>04</span> Spectral energy</div>
                 <p>Square every connection, then take the mean. Its complement is uncertainty.</p>
                 <div class="formula">U<sub>norm</sub> = 1 − <span class="fraction"><span>Σ W<sub>ij</sub><sup>2</sup></span><span>MN</span></span></div>
+                <dl class="formula-legend">
+                  <div><dt>U<sub>norm</sub></dt><dd>normalized uncertainty</dd></div>
+                  <div><dt>Σ</dt><dd>sum over every anchor–probe pair</dd></div>
+                  <div><dt>W<sub>ij</sub></dt><dd>semantic agreement between anchor i and probe j</dd></div>
+                  <div><dt>M</dt><dd>low-temperature anchors</dd></div>
+                  <div><dt>N</dt><dd>high-temperature probes</dd></div>
+                </dl>
               </div>
               <div class="score-dial-wrap">
                 <div class="score-dial" id="score-dial"><div><span id="score-value">0.00</span><small>UNCERTAINTY</small></div></div>
-                <p id="score-verdict"><b>LOW</b> The model’s belief is stable.</p>
+                <p id="score-verdict"><b>LOW</b> The model is certain.</p>
               </div>
             </article>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="idea-section shell" id="idea">
-      <div class="idea-intro">
-        <span class="kicker">The core idea</span>
-        <h2>A semantic<br><em>shake test.</em></h2>
-        <p>Fixed-temperature methods look at one slice of a model’s behavior. BiG-SURE compares the answer the model settles on with the alternatives it reveals under controlled diversity.</p>
-      </div>
-      <div class="idea-steps">
-        <article><span class="step-number">01</span><div class="step-icon anchors-icon"><i></i><i></i><i></i></div><h3>Anchor the belief</h3><p>Sample <strong>M = 3</strong> responses at low temperature <strong>T<sub>L</sub> = 0.1</strong>.</p></article>
-        <article><span class="step-number">02</span><div class="step-icon probes-icon"><i></i><i></i><i></i><i></i><i></i></div><h3>Probe the edges</h3><p>Generate <strong>N = 10</strong> diverse responses at <strong>T<sub>H</sub> = 1.0</strong>, with meaning-preserving input variations.</p></article>
-        <article><span class="step-number">03</span><div class="step-icon matrix-icon"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><h3>Measure agreement</h3><p>Build a bipartite matrix <strong>W</strong> from NLI entailment probabilities between every anchor and probe.</p></article>
-        <article><span class="step-number">04</span><div class="step-icon energy-icon"><svg viewBox="0 0 76 52"><path d="M4 42 C15 42 16 21 27 22S39 39 49 31 56 7 72 7"/></svg></div><h3>Read the energy</h3><p>Strong agreement yields high normalized spectral energy—and therefore low uncertainty.</p></article>
       </div>
     </section>
 
@@ -182,12 +177,6 @@
           </a>
         </div>
       </div>
-    </section>
-
-    <section class="takeaway shell">
-      <span class="kicker">Takeaway</span>
-      <blockquote>When a model knows, its meaning holds.<br><em>BiG-SURE measures what survives.</em></blockquote>
-      <div class="takeaway-actions"><a class="button button-dark" href="#citation">Paper coming soon <span aria-hidden="true">↓</span></a><a class="button button-light disabled" href="#citation" aria-disabled="true">Code coming soon</a></div>
     </section>
 
     <section class="citation-section" id="citation">

@@ -3,11 +3,11 @@ const examples = {
     query: "What planet is known as the Red Planet?",
     greedy: "Mars",
     anchors: ["Mars", "The planet Mars", "It is Mars"],
-    probes: ["Mars", "The answer is Mars", "Mars, our red neighbor", "That would be Mars", "Planet Mars", "It’s Mars"],
+    probes: ["Mars", "The answer is Mars", "Mars, our red neighbor", "That would be Mars", "Planet Mars", "Jupiter"],
     weights: [
-      [.98, .94, .91, .96, .97, .95],
-      [.95, .97, .89, .93, .98, .94],
-      [.97, .95, .90, .96, .95, .98]
+      [.98, .94, .91, .96, .97, .04],
+      [.95, .97, .89, .93, .98, .03],
+      [.97, .95, .90, .96, .95, .05]
     ]
   },
   uncertain: {
@@ -71,8 +71,8 @@ function renderExample(name) {
   dial.style.setProperty('--score', `${Math.round(score * 100)}%`);
   document.querySelector('#score-value').textContent = displayScore;
   document.querySelector('#score-verdict').innerHTML = name === 'reliable'
-    ? '<b>LOW</b> The model’s belief is stable.'
-    : '<b>HIGH</b> The model’s belief is drifting.';
+    ? '<b>LOW</b> The model is certain.'
+    : '<b>HIGH</b> The model is uncertain.';
   tabs.forEach(tab => {
     const active = tab.dataset.example === name;
     tab.classList.toggle('active', active);
@@ -131,5 +131,5 @@ const observer = new IntersectionObserver(entries => {
   });
 }, { threshold: .18 });
 
-document.querySelectorAll('.result-bars, .figure-card, .idea-steps article').forEach(el => observer.observe(el));
+document.querySelectorAll('.result-bars, .figure-card').forEach(el => observer.observe(el));
 restart();
